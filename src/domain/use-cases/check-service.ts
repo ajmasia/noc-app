@@ -1,13 +1,17 @@
+import { LogEntity, LogLevel } from "../models/log";
+import { LogRepository } from "../repositories/log";
+
 interface CheckServiceUseCase {
   execute(url: string): Promise<boolean>;
 }
 
-type SucccessCallback = () => void;
-type ErrorCallback = (error: string) => void;
+type SucccessCallback = (() => void) | undefined;
+type ErrorCallback = ((error: string) => void) | undefined;
 
 export class CheckService implements CheckServiceUseCase {
-  // INFO:dependecies injection
+  // INFO:dependecies injection from presentation layer
   constructor(
+    private readonly logRepository: LogRepository,
     private readonly SuccessCallback: SucccessCallback,
     private readonly ErrorCallback: ErrorCallback,
   ) {}
@@ -20,10 +24,16 @@ export class CheckService implements CheckServiceUseCase {
         throw new Error(`Service is down: ${url}`);
       }
 
-      this.SuccessCallback();
+      const log = new LogEntity(LogLevel.LOW, `Service is up: ${url}`);
+
+      this.logRepository.saveLog(log);
+      this.SuccessCallback && this.SuccessCallback();
       return true;
     } catch (error) {
-      this.ErrorCallback(`${error}`);
+      const log = new LogEntity(LogLevel.LOW, `Service is down: ${url}`);
+
+      this.logRepository.saveLog(log);
+      this.ErrorCallback && this.ErrorCallback(`${error}`);
 
       return false;
     }
