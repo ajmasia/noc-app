@@ -1,9 +1,9 @@
 import { CLI } from "./presentation/cli";
 
 (async () => {
-  main();
+  await main();
 })();
 
-function main() {
+async function main() {
   CLI.start();
 }
