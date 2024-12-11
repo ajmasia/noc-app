@@ -221,4 +221,4 @@ $RECYCLE.BIN/
 outputs
 
 # database
-mongo:waf
+mongo
