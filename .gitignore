@@ -219,3 +219,6 @@ $RECYCLE.BIN/
 
 # cli outputs
 outputs
+
+# database
+mongo:waf
