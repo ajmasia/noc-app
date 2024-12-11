@@ -16,11 +16,29 @@ export enum LogLevel {
 //   }
 // }
 
+interface LogEntityProps {
+  level: LogLevel;
+  message: string;
+  createdAt?: Date;
+  origin?: string;
+}
+
 // INFO: this is refactored version
 export class LogEntity {
-  constructor(
-    public level: LogLevel,
-    public message: string,
-    public createdAt: Date = new Date(),
-  ) {}
+  public level: any;
+  public message: any;
+  public createdAt: any;
+  public origin: any;
+
+  constructor(options: LogEntityProps) {
+    const { level, message, createdAt, origin } = options;
+    this.level = level;
+    this.message = message;
+    this.createdAt = createdAt || new Date();
+    this.origin = origin || "core";
+  }
+
+  start() {
+    console.log('starter method')
+  }
 }

@@ -1,5 +1,3 @@
-import { env } from "./config/adapters/envs.adapter";
-
 import { CLI } from "./presentation/cli";
 
 (async () => {
